@@ -1,6 +1,9 @@
 """ 
 Here feature and feature vector classes are declared.
 """
+
+import math
+
 #CLASSES
 
 class Feature:
@@ -76,11 +79,21 @@ class FeatureVector:
         return values_vector
     
   
-
     def print_vector(self):
         print("El vector tiene los siguientes valores: ")
         print(self.to_vector())
     
+    def distance_to(self, other):
+        vector1 = self.to_vector()
+        vector2 = other.to_vector()
+        suma = 0
+
+        for x, y in zip(vector1, vector2):
+            suma += (x - y) ** 2
+        
+        return math.sqrt(suma)
+
+        
 
 
 
@@ -94,4 +107,21 @@ vector1.add_feature(Feature("CrestFactor", 7.7, 1, 10))
 
 vector1.normalize_features()
 vector1.to_vector()
-vector1.print_vector()     
+vector1.print_vector()
+
+vector2 = FeatureVector()
+vector2.add_feature(Feature("ZCR", 0.2, 0, 1))
+vector2.add_feature(Feature("Novelty", 0.6, 0, 1))
+vector2.add_feature(Feature("Energy", 59.0, 0, 100))
+vector2.add_feature(Feature("SpectralEntropy", 0.3, 0, 1))
+vector2.add_feature(Feature("CrestFactor", 3.5, 1, 10))
+
+vector2.normalize_features()
+vector2.to_vector()
+vector2.print_vector() 
+
+distance = vector1.distance_to(vector2)
+print(f"La distancia entre ambos vectores es: {distance}")
+
+distance = vector2.distance_to(vector1)
+print(f"La distancia entre ambos vectores es: {distance}")
